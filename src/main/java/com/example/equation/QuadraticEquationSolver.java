@@ -7,6 +7,8 @@ public class QuadraticEquationSolver {
 
     public double[] solve(double a, double b, double c) {
 
+        checkIfNumbers(a, b, c);
+
         if (isZero(a)) {
             throw new IllegalArgumentException("A must not be equal zero");
         }
@@ -25,6 +27,20 @@ public class QuadraticEquationSolver {
             result = new double[]{};
         }
         return result;
+    }
+
+    private void checkIfNumbers(double a, double b, double c) {
+        if (Double.isNaN(a) || Double.isInfinite(a)) {
+            throw new IllegalArgumentException("A must be a finite number");
+        }
+
+        if (Double.isNaN(b) || Double.isInfinite(b)) {
+            throw new IllegalArgumentException("B must be a finite number");
+        }
+
+        if (Double.isNaN(c) || Double.isInfinite(c)) {
+            throw new IllegalArgumentException("C must be a finite number");
+        }
     }
 
     private boolean isZero(double a) {

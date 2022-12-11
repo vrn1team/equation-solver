@@ -3,8 +3,13 @@ package com.example.equation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.example.equation.QuadraticEquationSolver.PRECISION;
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.NaN;
+import static java.lang.Double.POSITIVE_INFINITY;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -65,6 +70,48 @@ class QuadraticEquationSolverTest {
         double a = 0;
         double b = 1;
         double c = 1;
+        // act
+        final Executable executable = () -> cut.solve(a, b, c);
+        // assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {NaN, POSITIVE_INFINITY, NEGATIVE_INFINITY})
+    @DisplayName("Exception when try to put non-numeric A coefficient")
+    void testIfNonNumericCoefficientAThenException(double value) {
+        // arrange
+        double a = value;
+        double b = 1;
+        double c = 1;
+        // act
+        final Executable executable = () -> cut.solve(a, b, c);
+        // assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {NaN, POSITIVE_INFINITY, NEGATIVE_INFINITY})
+    @DisplayName("Exception when try to put non-numeric B coefficient")
+    void testIfNonNumericCoefficientBThenException(double value) {
+        // arrange
+        double a = 1;
+        double b = value;
+        double c = 1;
+        // act
+        final Executable executable = () -> cut.solve(a, b, c);
+        // assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {NaN, POSITIVE_INFINITY, NEGATIVE_INFINITY})
+    @DisplayName("Exception when try to put non-numeric C coefficient")
+    void testIfNonNumericCoefficientCThenException(double value) {
+        // arrange
+        double a = 1;
+        double b = 1;
+        double c = value;
         // act
         final Executable executable = () -> cut.solve(a, b, c);
         // assert
