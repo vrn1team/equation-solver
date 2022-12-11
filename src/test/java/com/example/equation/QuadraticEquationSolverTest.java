@@ -4,13 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import static com.example.equation.QuadraticEquationSolver.PRECISION;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class QuadraticEquationTest {
-    QuadraticEquation cut = new QuadraticEquation();
+class QuadraticEquationSolverTest {
+    QuadraticEquationSolver cut = new QuadraticEquationSolver();
 
     @Test
     @DisplayName("Equation x^2+1 = 0 has no roots")
@@ -46,14 +47,15 @@ class QuadraticEquationTest {
     void testEquationHasOneRoot() {
         // arrange
         double a = 1;
-        double b = 2;
+        double b = 2 + Math.pow(10, PRECISION - 1);
         double c = 1;
         // act
         var result = cut.solve(a, b, c);
         // assert
+        var expectedRootVal = -b / (2 * a);
         assertNotNull(result);
         assertEquals(1, result.length);
-        assertArrayEquals(new double[]{-1}, result);
+        assertArrayEquals(new double[]{expectedRootVal}, result);
     }
 
     @Test
